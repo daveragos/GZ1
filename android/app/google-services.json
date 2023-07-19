@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "37248750590",
+    "project_id": "game-zoning-59bc3",
+    "storage_bucket": "game-zoning-59bc3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37248750590:android:1bd0d0636ade645e9266af",
+        "android_client_info": {
+          "package_name": "com.example.game_zoning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "37248750590-4pghmf0usokmqqs3qk369coq9gro420m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8N_kaEcbqW6xQbj5IcljxAWL9_nB5Ybk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "37248750590-4pghmf0usokmqqs3qk369coq9gro420m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "37248750590-eglvj0gfcg4qu1n354av210mpdmi9o2t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gameZoning"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
