@@ -1,7 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'login_page.dart';
 import 'home_page.dart';
+import 'login_register_page.dart';
 
 class AuthCheckPage extends StatelessWidget {
   const AuthCheckPage({super.key});
@@ -16,10 +18,9 @@ class AuthCheckPage extends StatelessWidget {
           if (snapshot.hasData) {
             return HomePage();
           }
-
           //check if not logged in
           else {
-            return LoginPage();
+            return LoginOrRegisterPage();
           }
         },
       ),

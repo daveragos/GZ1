@@ -4,23 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:game_zoning/Utilities/ut_button.dart';
 import 'package:game_zoning/Utilities/ut_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:game_zoning/services/auth_service.dart';
 
-class LoginPage extends StatefulWidget {
+import '../services/auth_service.dart';
+
+class RegisterPage extends StatefulWidget {
   final Function()? onTap;
-  LoginPage({required this.onTap});
+  RegisterPage({required this.onTap});
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   //text editing controllers
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   // sign user in method
-  void signUserIn() async {
+  void signUserUp() async {
     //loading circle
     showDialog(
         context: context,
@@ -30,8 +31,12 @@ class _LoginPageState extends State<LoginPage> {
           );
         });
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+      //check if password and confirmpassword is same
+      if (passwordController.text == confirmPasswordController.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
+      } else
+        showErrorMessage("Passwords don't match");
       //cancel the loading circle
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
@@ -64,23 +69,23 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 120.0,
+                    height: 100.0,
                   ),
 
                   //logo
                   Icon(
                     Icons.gamepad,
-                    size: 80.0,
+                    size: 60.0,
                     color: Colors.lightGreen,
                   ),
                   SizedBox(
-                    height: 50.0,
+                    height: 30.0,
                   ),
 
                   //email field
                   UtTextField(
                     controller: emailController,
-                    hintText: "enter your email",
+                    hintText: "Enter your Email",
                     obscureText: false,
                   ),
 
@@ -91,33 +96,26 @@ class _LoginPageState extends State<LoginPage> {
                   //password field
                   UtTextField(
                     controller: passwordController,
-                    hintText: "enter your password",
+                    hintText: "Enter your password",
                     obscureText: true,
                   ),
                   SizedBox(
                     height: 10.0,
                   ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 25.0),
-                        child: Text(
-                          "Forgot Password?",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                    ],
+                  //confirm password field
+                  UtTextField(
+                    controller: confirmPasswordController,
+                    hintText: "Confirm your password",
+                    obscureText: true,
                   ),
                   SizedBox(
-                    height: 10.0,
+                    height: 30.0,
                   ),
 
                   //sign in button
                   UtButton(
-                    text: "Sign In",
-                    onTap: signUserIn,
+                    text: "Sign Up",
+                    onTap: signUserUp,
                   ),
 
                   SizedBox(
@@ -128,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        "Not a member?",
+                        "Already have an Account?",
                         style: TextStyle(color: Colors.grey),
                       ),
                       Padding(
@@ -136,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: GestureDetector(
                           onTap: widget.onTap,
                           child: Text(
-                            "  Register here",
+                            "  Login now",
                             style: TextStyle(color: Colors.red),
                           ),
                         ),

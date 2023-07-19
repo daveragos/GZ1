@@ -1,11 +1,13 @@
+// ignore_for_file: prefer_const_constructors, prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 
-class Ut_TextField extends StatelessWidget {
+class UtTextField extends StatelessWidget {
   final controller;
   final String hintText;
   final bool obscureText;
 
-  const Ut_TextField({
+  const UtTextField({
     required this.controller,
     required this.hintText,
     required this.obscureText,
@@ -17,6 +19,7 @@ class Ut_TextField extends StatelessWidget {
         horizontal: 25.0,
       ),
       child: TextField(
+        keyboardType: TextInputType.emailAddress,
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
