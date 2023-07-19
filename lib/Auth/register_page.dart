@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:game_zoning/Utilities/ut_button.dart';
 import 'package:game_zoning/Utilities/ut_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '../services/auth_service.dart';
+import 'package:game_zoning/services/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -183,7 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       //google
                       GestureDetector(
-                        // onTap: () => AuthService().signInWithGoogle(),
+                        onTap: () => AuthService().signInWithGoogle(),
                         child: Image.asset(
                           "lib/assets/google.png",
                           height: 52,
