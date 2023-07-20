@@ -182,7 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       //google
                       GestureDetector(
-                        onTap: () => AuthService().signInWithGoogle(),
+                        onTap: () => {}, // AuthService().signInWithGoogle(),
                         child: Image.asset(
                           "lib/assets/google.png",
                           height: 52,

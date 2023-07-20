@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:game_zoning/home.dart';
 import 'home_page.dart';
 import 'login_register_page.dart';
 
@@ -16,7 +17,7 @@ class AuthCheckPage extends StatelessWidget {
         builder: (context, snapshot) {
           // check if logged in
           if (snapshot.hasData) {
-            return HomePage();
+            return Home();
           }
           //check if not logged in
           else {
