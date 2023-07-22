@@ -1,6 +1,6 @@
+// ignore_for_file: prefer_const_constructors
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-
 import 'screens/adding_page.dart';
 import 'screens/calendar_page.dart';
 import 'screens/home_page.dart';
@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int start_index = 1;
+  int startIndex = 1;
   final screens = [
     AddingPage(),
     HomePage(),
@@ -27,17 +27,21 @@ class _HomeState extends State<Home> {
       Icon(Icons.calendar_month_rounded),
     ];
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: screens[startIndex]),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.deepPurple,
         color: Colors.deepPurple.shade200,
         animationDuration: Duration(milliseconds: 300),
         onTap: (value) => setState(() {
-          start_index = value;
+          startIndex = value;
         }),
-        index: start_index,
+        index: startIndex,
         items: items,
       ),
-      body: screens[start_index],
     );
   }
 }

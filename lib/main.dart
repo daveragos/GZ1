@@ -3,12 +3,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:game_zoning/Auth/auth_check_page.dart';
+import 'package:provider/provider.dart';
+import 'data/income_data.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<IncomeData>(create: (_) => IncomeData()),
+      // ChangeNotifierProvider<ThemeModel>(create: (_) => ThemeModel()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {

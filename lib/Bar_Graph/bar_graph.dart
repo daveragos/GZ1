@@ -1,21 +1,26 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../data/income_data.dart';
 import 'bar_data.dart';
 
 class MyBarGraph extends StatelessWidget {
-  final List allGamesIncome;
-  const MyBarGraph({super.key, required this.allGamesIncome});
+  const MyBarGraph({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final incomeData = Provider.of<IncomeData>(context);
+
     BarData myBarData = BarData(
-      bettingAmount: allGamesIncome[0],
-      coffeeAmount: allGamesIncome[1],
-      dstvAmount: allGamesIncome[2],
-      poolAmount: allGamesIncome[3],
-      psAmount: allGamesIncome[4],
-      vrAmount: allGamesIncome[5],
+      bettingAmount: incomeData.allIncomeDataMap['bettingAmount'],
+      coffeeAmount: incomeData.allIncomeDataMap['coffeeAmount'],
+      dstvAmount: incomeData.allIncomeDataMap['dstvAmount'],
+      poolAmount: incomeData.allIncomeDataMap['poolAmount'],
+      psAmount: incomeData.allIncomeDataMap['psAmount'],
+      vrAmount: incomeData.allIncomeDataMap['vrAmount'],
     );
     myBarData.initializeBarData();
     return BarChart(
