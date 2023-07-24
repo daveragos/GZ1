@@ -22,10 +22,25 @@ class MyBarGraph extends StatelessWidget {
       psAmount: incomeData.allIncomeDataMap['psAmount'],
       vrAmount: incomeData.allIncomeDataMap['vrAmount'],
     );
+    double? maxY() {
+      var allData = incomeData.allIncomeDataMap;
+
+      // Extract the values from the map and find the maximum value
+      double? maxValue = allData.values.reduce(
+          (double? value, double? element) =>
+              value == null || (element != null && element > value)
+                  ? element
+                  : value,
+          null);
+
+      // Return the maximum value
+      return maxValue;
+    }
+
     myBarData.initializeBarData();
     return BarChart(
       BarChartData(
-        maxY: 600,
+        maxY: maxY() ?? 600,
         minY: 0,
         gridData: FlGridData(
           show: false,

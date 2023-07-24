@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 50,
           ),
-          MyBarGraph(),
+          SizedBox(height: 250, child: Expanded(child: MyBarGraph())),
         ],
       ),
     );
