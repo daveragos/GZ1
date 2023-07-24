@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:game_zoning/Auth/auth_check_page.dart';
 import 'package:provider/provider.dart';
+import 'data/date_data.dart';
 import 'data/income_data.dart';
 import 'firebase_options.dart';
 
@@ -13,7 +14,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<IncomeData>(create: (_) => IncomeData()),
-      // ChangeNotifierProvider<ThemeModel>(create: (_) => ThemeModel()),
+      ChangeNotifierProvider(create: (_) => DateProvider()),
     ],
     child: MyApp(),
   ));

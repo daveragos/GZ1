@@ -1,37 +1,39 @@
 import 'package:flutter/foundation.dart';
 
 class IncomeData with ChangeNotifier {
-  Map<String, double> _allIncomeDataMap = {
-    'bettingAmount': 0,
-    'coffeeAmount': 0,
-    'dstvAmount': 0,
-    'poolAmount': 0,
-    'psAmount': 0,
-    'vrAmount': 0,
-  };
+  Map<DateTime, Map<String, double>> _allIncomeDataMap = {};
 
-  get allIncomeDataMap => _allIncomeDataMap;
+  // Adding value to the map for a specific date
+  void addIncomeForDate(DateTime date, Map<String, double> incomeDataMap) {
+    _allIncomeDataMap[date] ??= {};
 
-  //adding value to the map
-  void addIncome(String key, double value) {
-    _allIncomeDataMap[key] = (_allIncomeDataMap[key] ?? 0) + value;
+    incomeDataMap.forEach((key, value) {
+      _allIncomeDataMap[date]![key] =
+          (_allIncomeDataMap[date]![key] ?? 0) + value;
+    });
+
     notifyListeners();
   }
 
-  double addAllIncome() {
+  // Get the total income for a specific date
+  double getTotalIncomeForDate(DateTime date) {
     double totalIncome = 0;
-    _allIncomeDataMap.forEach((key, value) {
+    _allIncomeDataMap[date]?.forEach((key, value) {
       totalIncome += value;
     });
     return totalIncome;
   }
 
-  List<double> allGamesIncome = [
-    120,
-    133,
-    432,
-    534,
-    121,
-    213,
-  ];
+  // Max getter method for all dates
+  double get max {
+    if (_allIncomeDataMap.isEmpty) {
+      return 0.0; // Return 0.0 if the map is empty
+    }
+
+    double maxValue = _allIncomeDataMap.values
+        .map((dateData) => dateData.values
+            .reduce((value, element) => value > element ? value : element))
+        .reduce((value, element) => value > element ? value : element);
+    return maxValue;
+  }
 }

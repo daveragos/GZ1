@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:game_zoning/data/income_data.dart';
+import 'package:game_zoning/database/data_management.dart';
 import 'package:provider/provider.dart';
+
+import '../data/date_data.dart';
 
 class AddingPage extends StatelessWidget {
   final List<String> dropdownItems = [
@@ -16,12 +19,17 @@ class AddingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String dropdownValue = dropdownItems[0];
+    ManageData dBase = ManageData();
     double? textFormFieldValue;
+    Map<String, double> incomeDataMap = {
+      '${dropdownValue}Amount': textFormFieldValue!
+    };
+    final dateProvider = Provider.of<DateProvider>(context);
+    final incomeData = Provider.of<IncomeData>(context);
+
+    DateTime selectedDate = dateProvider.selectedDate;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Adding Page'),
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35),
         child: Column(
@@ -54,10 +62,8 @@ class AddingPage extends StatelessWidget {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                final provider =
-                    Provider.of<IncomeData>(context, listen: false);
-                provider.addIncome(
-                    '${dropdownValue}Amount', textFormFieldValue!);
+                dBase.addIncomeData2DB(selectedDate, incomeDataMap);
+                incomeData.addIncomeForDate(selectedDate, incomeDataMap);
               },
               child: Text('Submit'),
             ),

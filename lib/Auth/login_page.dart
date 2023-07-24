@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:game_zoning/Utilities/ut_button.dart';
 import 'package:game_zoning/Utilities/ut_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:game_zoning/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
-  LoginPage({required this.onTap});
+  const LoginPage({super.key, required this.onTap});
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
