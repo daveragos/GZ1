@@ -8,55 +8,60 @@ import '../data/income_data.dart';
 import 'bar_data.dart';
 
 class MyBarGraph extends StatelessWidget {
-  const MyBarGraph({super.key});
+  final DateTime selectedDate;
+  const MyBarGraph({super.key, required this.selectedDate});
 
   @override
   Widget build(BuildContext context) {
-    final incomeData = Provider.of<IncomeData>(context);
+    final incomeData = Provider.of<IncomeData>(context, listen: false);
 
+    var axisTitlesFalse = AxisTitles(sideTitles: SideTitles(showTitles: false));
     BarData myBarData = BarData(
-      bettingAmount: incomeData.allIncomeDataMap['bettingAmount'],
-      coffeeAmount: incomeData.allIncomeDataMap['coffeeAmount'],
-      dstvAmount: incomeData.allIncomeDataMap['dstvAmount'],
-      poolAmount: incomeData.allIncomeDataMap['poolAmount'],
-      psAmount: incomeData.allIncomeDataMap['psAmount'],
-      vrAmount: incomeData.allIncomeDataMap['vrAmount'],
+      bettingAmount: 231,
+      coffeeAmount: 231,
+      dstvAmount: 231,
+      poolAmount: 231,
+      psAmount: 321,
+      vrAmount: 123,
     );
     myBarData.initializeBarData();
-    return BarChart(
-      BarChartData(
-        maxY: 600,
-        minY: 0,
-        gridData: FlGridData(
-          show: false,
+    return SizedBox(
+      height: 300,
+      child: BarChart(
+        BarChartData(
+          maxY: 500,
+          minY: 0,
+          gridData: FlGridData(
+            show: false,
+          ),
+          titlesData: FlTitlesData(
+            show: true,
+            topTitles: axisTitlesFalse,
+            leftTitles: axisTitlesFalse,
+            rightTitles: axisTitlesFalse,
+            bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                    showTitles: true, getTitlesWidget: getBottomTitles)),
+          ),
+          borderData: FlBorderData(
+            show: false,
+          ),
+          barGroups: myBarData.barData
+              .map((data) => BarChartGroupData(
+                    x: data.x,
+                    barRods: [
+                      BarChartRodData(
+                        toY: data.y,
+                        color: Colors.grey[800],
+                        width: 25,
+                        borderRadius: BorderRadius.circular(4),
+                        backDrawRodData: BackgroundBarChartRodData(
+                            show: true, toY: 600, color: Colors.grey[100]),
+                      ),
+                    ],
+                  ))
+              .toList(),
         ),
-        titlesData: FlTitlesData(
-          show: true,
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                  showTitles: true, getTitlesWidget: getBottomTitles)),
-        ),
-        borderData: FlBorderData(
-          show: false,
-        ),
-        barGroups: myBarData.barData
-            .map((data) => BarChartGroupData(
-                  x: data.x,
-                  barRods: [
-                    BarChartRodData(
-                      toY: data.y,
-                      color: Colors.grey[800],
-                      width: 25,
-                      borderRadius: BorderRadius.circular(4),
-                      backDrawRodData: BackgroundBarChartRodData(
-                          show: true, toY: 600, color: Colors.grey[100]),
-                    ),
-                  ],
-                ))
-            .toList(),
       ),
     );
   }
