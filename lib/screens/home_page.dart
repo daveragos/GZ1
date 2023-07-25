@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            height: 50,
+            height: 200,
           ),
           SizedBox(height: 250, child: Expanded(child: MyBarGraph())),
         ],

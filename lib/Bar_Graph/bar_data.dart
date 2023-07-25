@@ -1,52 +1,58 @@
 import 'package:game_zoning/Bar_Graph/individual_income.dart';
 
 class BarData {
-  final double dstvAmount;
-  final double poolAmount;
-  final double vrAmount;
-  final double coffeeAmount;
-  final double psAmount;
-  final double bettingAmount;
-
+  double? bettingAmount;
+  double? coffeeAmount;
+  double? dstvAmount;
+  double? poolAmount;
+  double? psAmount;
+  double? vrAmount;
   BarData({
-    required this.bettingAmount,
-    required this.coffeeAmount,
-    required this.dstvAmount,
-    required this.poolAmount,
-    required this.psAmount,
-    required this.vrAmount,
+    this.bettingAmount,
+    this.coffeeAmount,
+    this.dstvAmount,
+    this.poolAmount,
+    this.psAmount,
+    this.vrAmount,
   });
-
-  List<IndividualBar> barData = [];
 
   //initialize bardata
 
   void initializeBarData() {
+    bettingAmount ??= 0.0;
+    coffeeAmount ??= 0.0;
+    dstvAmount ??= 0.0;
+    poolAmount ??= 0.0;
+    psAmount ??= 0.0;
+    vrAmount ??= 0.0;
+
     barData = [
       IndividualBar(
         x: 0,
-        y: bettingAmount,
+        y: bettingAmount!,
       ),
       IndividualBar(
         x: 1,
-        y: coffeeAmount,
+        y: coffeeAmount!,
       ),
       IndividualBar(
         x: 2,
-        y: dstvAmount,
+        y: dstvAmount!,
       ),
       IndividualBar(
         x: 3,
-        y: poolAmount,
+        y: poolAmount!,
       ),
       IndividualBar(
         x: 4,
-        y: psAmount,
+        y: psAmount!,
       ),
       IndividualBar(
         x: 5,
-        y: vrAmount,
+        y: vrAmount!,
       ),
     ];
   }
+
+  List<IndividualBar> barData = [];
 }
