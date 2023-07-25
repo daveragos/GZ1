@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreManager {
-  Future<Map<String, double?>> getDataFromFirestore(String documentId) async {
+  Future<Map<String, double>> getDataFromFirestore(String documentId) async {
     try {
       final DocumentSnapshot snapshot = await FirebaseFirestore.instance
           .collection('all_income_records')
@@ -9,21 +9,29 @@ class FirestoreManager {
           .get();
 
       if (snapshot.exists) {
-        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
-        Map<String, double?> dataMap = {};
+        Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+        print('Received data from Firestore: $data');
 
-        data?.forEach((key, value) {
-          if (value is double) {
+        // Map the data to a new Map<String, double>
+        Map<String, double> dataMap = {};
+        data.forEach((key, value) {
+          if (value is int) {
+            // Convert int values to double
+            dataMap[key] = value.toDouble();
+          } else if (value is double) {
             dataMap[key] = value;
           }
         });
 
         return dataMap;
       } else {
+        print(
+            '@@@@@@@@@@@@@@@@@@@@@@@@@@@ Document does not exist in Firestore. @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
         return {};
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print(
+          '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Error fetching data: $e @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
       return {};
     }
   }

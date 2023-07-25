@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:game_zoning/database/db_management.dart';
 import 'package:provider/provider.dart';
 
 import '../data/income_data.dart';
@@ -14,41 +15,10 @@ class MyBarGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final incomeData = Provider.of<IncomeData>(context);
+    final firestoreManager = FirestoreManager();
 
-    Future<BarData> getDataFromFirestore() async {
-      try {
-        final QuerySnapshot snapshot = await FirebaseFirestore.instance
-            .collection('all_income_records')
-            .get();
-        Map<String, double?> dataMap = {}; // Use double? (nullable double) here
-
-        for (QueryDocumentSnapshot doc in snapshot.docs) {
-          dataMap['bettingAmount'] = doc['betting']?.toDouble();
-          dataMap['coffeeAmount'] = doc['coffee']?.toDouble();
-          dataMap['dstvAmount'] = doc['dstv']?.toDouble();
-          dataMap['poolAmount'] = doc['pool']?.toDouble();
-          dataMap['psAmount'] = doc['ps']?.toDouble();
-          dataMap['vrAmount'] = doc['vr']?.toDouble();
-        }
-
-        BarData myBarData = BarData(
-          bettingAmount: dataMap['bettingAmount'],
-          coffeeAmount: dataMap['coffeeAmount'],
-          dstvAmount: dataMap['dstvAmount'],
-          poolAmount: dataMap['poolAmount'],
-          psAmount: dataMap['psAmount'],
-          vrAmount: dataMap['vrAmount'],
-        );
-
-        return myBarData;
-      } catch (e) {
-        print('Error fetching data: $e');
-        return BarData(); // Return empty data in case of error
-      }
-    }
-
-    return FutureBuilder<BarData>(
-      future: getDataFromFirestore(),
+    return FutureBuilder<Map<String, double?>>(
+      future: firestoreManager.getDataFromFirestore('2023-7-24'),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While waiting for data, you can show a loading indicator
@@ -69,7 +39,16 @@ class MyBarGraph extends StatelessWidget {
           return Text('Error loading data');
         } else {
           // If data is available, return the BarChart widget
-          BarData myBarData = snapshot.data!;
+          Map<String, double?> dataMap = snapshot.data!;
+          BarData myBarData = BarData(
+            bettingAmount: dataMap['betting'],
+            coffeeAmount: dataMap['coffee'],
+            dstvAmount: dataMap['dstv'],
+            poolAmount: dataMap['pool'],
+            psAmount: dataMap['ps'],
+            vrAmount: dataMap['vr'],
+          );
+
           myBarData.initializeBarData();
           return BarChart(BarChartData(
               maxY: 600,
