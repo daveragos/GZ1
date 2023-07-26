@@ -39,12 +39,16 @@ class FirestoreManager {
   Future<void> updateDataInFirestore(
       String documentId, Map<String, double> newData) async {
     try {
-      await FirebaseFirestore.instance
+      final DocumentReference docRef = FirebaseFirestore.instance
           .collection('all_income_records')
-          .doc(documentId)
-          .update(newData);
+          .doc(documentId);
+
+      // Use SetOptions(merge: true) to add the document if it doesn't exist
+      // or update the existing document with the new data
+      await docRef.set(newData, SetOptions(merge: true));
     } catch (e) {
-      print('Error updating data: $e');
+      print(
+          '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Error fetching data: $e @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     }
   }
 

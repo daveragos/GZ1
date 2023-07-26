@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:game_zoning/database/db_management.dart';
 import 'package:provider/provider.dart';
-
 import '../data/income_data.dart';
 import 'bar_data.dart';
 
@@ -15,10 +13,11 @@ class MyBarGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final incomeData = Provider.of<IncomeData>(context);
+
     final firestoreManager = FirestoreManager();
 
     return FutureBuilder<Map<String, double?>>(
-      future: firestoreManager.getDataFromFirestore('2023-7-24'),
+      future: firestoreManager.getDataFromFirestore(incomeData.getDate),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While waiting for data, you can show a loading indicator
