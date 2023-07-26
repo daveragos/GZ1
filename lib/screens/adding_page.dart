@@ -126,7 +126,7 @@ class _AddingPageState extends State<AddingPage> {
                             if (_dropdownFormKey.currentState!.validate()) {
                               //valid flow
                               Map<String, double> incomeMap = {
-                                selectedValue ?? "": enteredValue ?? 0.0
+                                selectedValue: enteredValue
                               };
                               incomeData.getDate =
                                   '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';

@@ -33,6 +33,7 @@ class MyBarGraph extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
+          //08501233186317
           // If an error occurred while fetching data, handle it here
           print('Error: ${snapshot.error}');
           return Text('Error loading data');
@@ -123,5 +124,5 @@ Widget getBottomTitles(double value, TitleMeta meta) {
       break;
   }
 
-  return SideTitleWidget(child: text, axisSide: meta.axisSide);
+  return SideTitleWidget(axisSide: meta.axisSide, child: text);
 }

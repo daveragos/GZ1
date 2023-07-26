@@ -16,7 +16,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // list of game income
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        Provider.of<IncomeData>(context, listen: false).getDate =
+            '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +40,11 @@ class _HomePageState extends State<HomePage> {
     double totalIncome = incomeData.addAllIncome();
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _selectDate(context),
+        tooltip: 'Select Date',
+        child: Icon(Icons.calendar_today),
+      ),
       backgroundColor: Colors.blue[300],
       body: Column(
         children: [
@@ -37,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 200,
           ),
-          SizedBox(height: 250, child: Expanded(child: MyBarGraph())),
+          SizedBox(height: 250, child: MyBarGraph()),
         ],
       ),
     );
