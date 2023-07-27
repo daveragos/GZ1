@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:game_zoning/Bar_Graph/bar_graph.dart';
+import 'package:game_zoning/database/db_management.dart';
 import 'package:provider/provider.dart';
 
 import '../data/income_data.dart';
@@ -37,7 +38,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final incomeData = Provider.of<IncomeData>(context);
-    double totalIncome = incomeData.addAllIncome();
+    final firestoreManager = FirestoreManager();
+
+    Future<double> getTotalIncome() async {
+      return await firestoreManager.calculateSumOfADate(incomeData.getDate);
+    }
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -51,9 +56,28 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 50,
           ),
-          Text(
-            '$totalIncome',
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          FutureBuilder<double>(
+            future: getTotalIncome(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text(
+                  'Loading...', // Show a loading indicator while fetching data
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                );
+              } else if (snapshot.hasError) {
+                return Text(
+                  'Error: ${snapshot.error}',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                );
+              } else {
+                // Show the actual totalIncome value from the snapshot data
+                double totalIncome = snapshot.data!;
+                return Text(
+                  "The Total Income of ${incomeData.getDate} is : $totalIncome",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                );
+              }
+            },
           ),
           SizedBox(
             height: 200,

@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
       Icon(Icons.calendar_month_rounded),
     ];
     return Scaffold(
+      appBar: AppBar(),
       resizeToAvoidBottomInset: false,
       body: Padding(
           padding:

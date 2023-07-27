@@ -62,4 +62,33 @@ class FirestoreManager {
       print('Error deleting data: $e');
     }
   }
+
+  Future<double> calculateSumOfADate(String pickedDate) async {
+    DocumentReference<Map<String, dynamic>> documentRef = FirebaseFirestore
+        .instance
+        .collection('all_income_records')
+        .doc(pickedDate);
+
+    try {
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await documentRef.get();
+      if (snapshot.exists) {
+        double sum = 0.0;
+        Map<String, dynamic> data = snapshot.data()!;
+        data.forEach((key, value) {
+          if (value is num) {
+            // Only add numeric values
+            sum += value.toDouble();
+          }
+        });
+        return sum;
+      } else {
+        print('@@@@@@@@@@@@@@@@@@ Document does not exist @@@@@@@@@@@@@@@@@');
+        return 0.0;
+      }
+    } catch (e) {
+      print(
+          '######################### Error calculating sum: $e #########################');
+      return 0.0;
+    }
+  }
 }
