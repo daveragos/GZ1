@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           SizedBox(
-            height: 200,
+            height: 100,
           ),
           SizedBox(height: 250, child: MyBarGraph()),
         ],

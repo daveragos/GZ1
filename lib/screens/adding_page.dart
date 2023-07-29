@@ -47,97 +47,102 @@ class _AddingPageState extends State<AddingPage> {
       appBar: AppBar(
         title: Text('@@@@@ $selectedValue == $enteredValue @@@@@@@'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 45,
-            decoration: BoxDecoration(color: Colors.amber),
-            child: Text('checking the container'),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          Padding(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 45,
+              decoration: BoxDecoration(color: Colors.amber),
+              child: Text('checking the container'),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Form(
-                  key: _dropdownFormKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 2),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 2),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey,
-                          ),
-                          validator: (value) =>
-                              value == null ? "Select a country" : null,
-                          dropdownColor: Colors.grey,
-                          value: selectedValue,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedValue = newValue!;
-                            });
-                          },
-                          items: dropdownItems),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      TextFormField(
-                        validator: (value) =>
-                            value == null ? "enter a value" : null,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 2),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+                key: _dropdownFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
-                        onChanged: (newValue) {
-                          setState(() {
-                            // If newValue is not null, try to parse it as a double
-                            double? parsedValue =
-                                double.tryParse(newValue.toString());
-
-                            if (parsedValue != null) {
-                              // If parsing is successful, update the selectedValue
-                              enteredValue = parsedValue;
-                            } else {
-                              // If parsing fails, handle the error (e.g., show a message to the user)
-                              print('Error: Invalid double value selected.');
-                            }
-                          });
-                        },
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey,
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            if (_dropdownFormKey.currentState!.validate()) {
-                              //valid flow
-                              Map<String, double> incomeMap = {
-                                selectedValue: enteredValue
-                              };
-                              incomeData.getDate =
-                                  '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
-                              incomeData.addIncome(incomeMap,
-                                  '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}');
-                            }
-                          },
-                          child: Text("Submit"))
-                    ],
-                  ))),
-        ],
+                      validator: (value) =>
+                          value == null ? "Select a country" : null,
+                      dropdownColor: Colors.grey,
+                      value: selectedValue,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedValue = newValue!;
+                        });
+                      },
+                      items: dropdownItems,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      validator: (value) =>
+                          value == null ? "enter a value" : null,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                      onChanged: (newValue) {
+                        setState(() {
+                          // If newValue is not null, try to parse it as a double
+                          double? parsedValue =
+                              double.tryParse(newValue.toString());
+
+                          if (parsedValue != null) {
+                            // If parsing is successful, update the selectedValue
+                            enteredValue = parsedValue;
+                          } else {
+                            // If parsing fails, handle the error (e.g., show a message to the user)
+                            print('Error: Invalid double value selected.');
+                          }
+                        });
+                      },
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_dropdownFormKey.currentState!.validate()) {
+                          //valid flow
+                          Map<String, double> incomeMap = {
+                            selectedValue: enteredValue,
+                          };
+                          incomeData.getDate =
+                              '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+                          incomeData.addIncome(
+                            incomeMap,
+                            '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}',
+                          );
+                        }
+                      },
+                      child: Text("Submit"),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
