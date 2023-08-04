@@ -7,9 +7,14 @@ import 'package:provider/provider.dart';
 import '../data/income_data.dart';
 import 'bar_data.dart';
 
-class MyBarGraph extends StatelessWidget {
+class MyBarGraph extends StatefulWidget {
   const MyBarGraph({super.key});
 
+  @override
+  State<MyBarGraph> createState() => _MyBarGraphState();
+}
+
+class _MyBarGraphState extends State<MyBarGraph> {
   @override
   Widget build(BuildContext context) {
     final incomeData = Provider.of<IncomeData>(context);
@@ -33,13 +38,30 @@ class MyBarGraph extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
-          //08501233186317
           // If an error occurred while fetching data, handle it here
           print('Error: ${snapshot.error}');
           return Text('Error loading data');
         } else {
           // If data is available, return the BarChart widget
           Map<String, double?> dataMap = snapshot.data!;
+          //maxY
+          double? getMaximumValue() {
+            double? maxValue = double
+                .negativeInfinity; // Start with the smallest possible value
+            // Iterate through the map to find the maximum value
+            dataMap.forEach((key, value) {
+              if (value != null && value > maxValue!) {
+                maxValue = value;
+              }
+            });
+
+            if (maxValue == double.negativeInfinity) {
+              return 600; // If all values are null, return null as the maximum value
+            }
+
+            return maxValue! + 50;
+          }
+
           BarData myBarData = BarData(
             bettingAmount: dataMap['betting'],
             coffeeAmount: dataMap['coffee'],
@@ -50,7 +72,8 @@ class MyBarGraph extends StatelessWidget {
           );
 
           myBarData.initializeBarData();
-          return BarChart(BarChartData(
+          return BarChart(
+            BarChartData(
               maxY: 600,
               minY: 0,
               gridData: FlGridData(
@@ -68,27 +91,33 @@ class MyBarGraph extends StatelessWidget {
                 ),
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
-                      showTitles: true, getTitlesWidget: getBottomTitles),
+                    showTitles: true,
+                    getTitlesWidget: getBottomTitles,
+                  ),
                 ), // ... (titles configuration)
               ),
               borderData: FlBorderData(
                 show: false,
               ),
               barGroups: myBarData.barData
-                  .map((data) => BarChartGroupData(
-                        x: data.x,
-                        barRods: [
-                          BarChartRodData(
-                            toY: data.y,
-                            color: Colors.grey[800],
-                            width: 25,
-                            borderRadius: BorderRadius.circular(4),
-                            backDrawRodData: BackgroundBarChartRodData(
-                                show: true, toY: 600, color: Colors.grey[100]),
-                          ),
-                        ],
-                      ))
-                  .toList()));
+                  .map(
+                    (data) => BarChartGroupData(
+                      x: data.x,
+                      barRods: [
+                        BarChartRodData(
+                          toY: data.y,
+                          color: Colors.grey[800],
+                          width: 25,
+                          borderRadius: BorderRadius.circular(4),
+                          backDrawRodData: BackgroundBarChartRodData(
+                              show: true, toY: 600, color: Colors.grey[100]),
+                        ),
+                      ],
+                    ),
+                  )
+                  .toList(),
+            ),
+          );
         }
       },
     );

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:game_zoning/Auth/auth_check_page.dart';
+import 'package:game_zoning/linechart.dart';
 import 'package:provider/provider.dart';
 import 'data/income_data.dart';
 import 'firebase_options.dart';
@@ -30,8 +31,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(useMaterial3: true),
       debugShowCheckedModeBanner: false,
-      home: AuthCheckPage(),
+      home: LineCharter(),
     );
   }
 }

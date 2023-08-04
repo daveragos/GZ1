@@ -44,17 +44,20 @@ class _AddingPageState extends State<AddingPage> {
         tooltip: 'Select Date',
         child: Icon(Icons.calendar_today),
       ),
-      appBar: AppBar(
-        title: Text('@@@@@ $selectedValue == $enteredValue @@@@@@@'),
-      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 45,
-              decoration: BoxDecoration(color: Colors.amber),
-              child: Text('checking the container'),
+              padding: EdgeInsets.all(25.0),
+              child: Text(
+                'checking the container',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             SizedBox(
               height: 25,

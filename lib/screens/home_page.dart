@@ -72,17 +72,31 @@ class _HomePageState extends State<HomePage> {
               } else {
                 // Show the actual totalIncome value from the snapshot data
                 double totalIncome = snapshot.data!;
-                return Text(
-                  "The Total Income of ${incomeData.getDate} is : $totalIncome",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                return Column(
+                  children: [
+                    Text(
+                      incomeData.getDate,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Total Income :$totalIncome",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 );
               }
             },
           ),
-          SizedBox(
-            height: 100,
+          AspectRatio(
+            aspectRatio: 7 / 5,
+            child: MyBarGraph(),
           ),
-          SizedBox(height: 250, child: MyBarGraph()),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'screens/adding_page.dart';
 import 'screens/calendar_page.dart';
@@ -19,6 +20,10 @@ class _HomeState extends State<Home> {
     HomePage(),
     CalendarPage(),
   ];
+  void signUserOut() {
+    FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     final items = <Widget>[
@@ -27,7 +32,9 @@ class _HomeState extends State<Home> {
       Icon(Icons.calendar_month_rounded),
     ];
     return Scaffold(
-      // appBar: AppBar(),
+      appBar: AppBar(actions: [
+        IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))
+      ]),
       resizeToAvoidBottomInset: false,
       body: Padding(
           padding:
